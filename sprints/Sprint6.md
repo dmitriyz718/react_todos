@@ -127,6 +127,9 @@ import React, { Component } from 'react'
 class TodoForm extends Component {
   constructor() {
     super();
+    this.state = {
+      todo: ''
+    }
   }
 
   onChange = (event) => {
