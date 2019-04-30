@@ -77,7 +77,7 @@ import React, {Component} from 'react'
 class Todo extends Component {
   render(){
     return(
-      <li data-todos-index={this.props.todo.id}>
+      <li data-todos-index={this.props.todo._id}>
         <span className="todo-item">{this.props.todo.body}</span>
       </li> 
     )
@@ -218,7 +218,7 @@ In `src/components/Todos.js`:
   let todos = this.props.todos.map( (todo) => {
   return (
     <Todo
-      key={todo.id}
+      key={todo._id}
       todo={todo}
     />
   )
@@ -228,7 +228,7 @@ In `src/components/Todos.js`:
 In `src/components/Todo.js`:
 
 ```js
-  <li data-todos-index={this.props.todo.id}>
+  <li data-todos-index={this.props.todo._id}>
     <span className="todo-item">{this.props.todo.body}</span>
   </li> 
 ```
