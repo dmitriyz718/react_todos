@@ -122,8 +122,8 @@ createTodo = (todo) => {
     }
     TodoModel.create(newTodo).then((res) => {
         let todos = this.state.todos
-        let newTodos = todos.push(res.data)
-        this.setState({ todos: newTodos })
+        todos.push(res.data)
+        this.setState({ todos: todos })
     })
 }
 render(){
