@@ -28,7 +28,7 @@ $ rm src/logo.svg
 Then replace the return block inside `src/App.js` with a header of Hello World. The whole file should look like this:
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 
 function App() {
   return (
