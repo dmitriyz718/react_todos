@@ -11,18 +11,18 @@ $ touch src/models/Todo.js
 Now in `src/models/Todo.js`, we are going to use our beloved super-crud API endpoint of todos to get some data (you can check out the raw json at https://super-crud-api.herokuapp.com/api/todos):
 
 ```js
-import axios from 'axios'
+import axios from 'axios';
 
-const endPoint = `https://super-crud-api.herokuapp.com/api/todos`
+const endPoint = `https://super-crud-api.herokuapp.com/api/todos`;
 
 class TodoModel {
-  static all(){
-    let request = axios.get(endPoint)
-    return request
-  }
-}
+  static all = () => {
+    let request = axios.get(endPoint);
+    return request;
+  };
+};
 
-export default TodoModel
+export default TodoModel;
 ```
 
 The Axios API is awesome & intuitive! When we use the `all` method on our `TodoModel`, it will make a get request to our API for *all* todos. We return the request so that we can chain promises to it.
@@ -30,7 +30,7 @@ The Axios API is awesome & intuitive! When we use the `all` method on our `TodoM
 Note also that `all()` is a static method. What does this mean? A **static** method can be called without there being an **instance** of the class containing the **static** method. This will allow us to call `all()` in the following way (without ***instantiating*** the class with new):
 
 ```js
-let todos = TodoModel.all()
+let todos = TodoModel.all();
 ```
 
 
@@ -43,14 +43,14 @@ For now, let's toss this in the `TodosContainer`'s `render()` method: this isn't
 In `containers/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react'
-import TodoModel from '../models/Todo'
+import React, {Component} from 'react';
+import TodoModel from '../models/Todo';
 
 class TodosContainer extends Component {
   render(){
     TodoModel.all().then( (res) => {
       console.log(res);
-    })
+    });
     return (
       <div className='todosContainer'>
         <h2>This is a todos container</h2>
@@ -59,7 +59,7 @@ class TodosContainer extends Component {
   }
 }
 
-export default TodosContainer
+export default TodosContainer;
 ```
 
 Awesome, we can see the response from our database as soon as the page loads, we know it's working! Notice that the actual `json` we want is stored in the `data` attribute of the response.  This is a standard format for `axios` returns.  
@@ -72,7 +72,7 @@ Now that we can get our data, let's code how we present that data. It'll be a bi
 Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component to follow FIRST(Focused Independent Reusable Small Testable) principles. Let's create `src/components/Todo.js` and put the following in it:
 
 ```js
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 
 class Todo extends Component {
   render(){
@@ -84,7 +84,7 @@ class Todo extends Component {
   }
 }
 
-export default Todo
+export default Todo;
 ```
 
 When we write this component we know that if we pass it a `todo`, as a `prop`, that has both an id and a body, that it will render. AND it will render the same way every time. So what will be rendering each individual `Todo` component?
@@ -93,30 +93,29 @@ When we write this component we know that if we pass it a `todo`, as a `prop`, t
 We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.js` and fill it with the following:
 
 ```js
-import React, {Component} from 'react'
-import Todo from './Todo'
+import React, {Component} from 'react';
+import Todo from './Todo';
 
 class Todos extends Component {
   render(){
 
-    let todos = this.props.todos.map( (todo) => {
+    let todos = this.props.todos.map((todo) => {
       return (
         <Todo
           key={todo._id}
           todo={todo}/>
       )
-    })
+    });
 
     return(
       <ul>
         {todos}
       </ul>
     )
-    
   }
 }
 
-export default Todos
+export default Todos;
 ```
 
 In this component, we have a property called todos. When we eventually use this component, we need to pass it that property. Once we have our todos, it takes each one and maps a `Todo` component to the variable `todos`. Then renders all of the todos. We can use the map function to render multiple components for each individual todo and store them in a variable. We just need to make sure we bind `this` in case we need to access properties from the `Todos` component later.
@@ -126,27 +125,29 @@ In this component, we have a property called todos. When we eventually use this 
 Let's shove the remaining code we need in and then let's talk about it. In `src/containers/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react'
-import TodoModel from '../models/Todo'
-import Todos from '../components/Todos'
+import React, {Component} from 'react';
+import TodoModel from '../models/Todo';
+import Todos from '../components/Todos';
 
 class TodosContainer extends Component {
   constructor(){
     super()
     this.state = {
-      todos: []
+      todos: [],
     }
   }
-  componentDidMount(){
+  componentDidMount() {
     this.fetchData()
   }
-  fetchData(){
-    TodoModel.all().then( (res) => {
+  
+  fetchData = () => {
+    TodoModel.all().then((res) => {
       this.setState ({
         todos: res.data.todos,
-      })
-    })
-  }
+      });
+    });
+  };
+  
   render(){
     return (
       <div className="todosComponent">
@@ -157,37 +158,37 @@ class TodosContainer extends Component {
   }
 }
 
-export default TodosContainer
+export default TodosContainer;
 ```
 
 If we take a look at our browser now... BAM todos! What just happened....
 
 ```js
-constructor(){
+constructor() {
   super()
   this.state = {
-    todos: []
-  }
-}
+    todos: [],
+  };
+};
 ```
 
 This is just like `__init__` in python(only a bit different). `constructor()` is basically a function that invokes when an instance of our class gets initialized. When we call `super()` we're basically saying invoke the same `constructor` function that the React library defines for their `constructor`. In addition to that initialize a state for this component in which `todos` is a property and set its value as an empty array. We can then set the state any other time in our application using `.setState()`.
 
 ```js
-fetchData(){
+fetchData = () => {
   TodoModel.all().then( (res) => {
     this.setState ({
       todos: res.data.todos,
-    })
-  })
-}
+    });
+  });
+};
 ```
 
 This function leverages our model to retrieve our `todos` from our backend. In the promise of that request we set the state of this container component to have `todos` be the value returned from the response. Any time `setState` is invoked the component re-renders.
 
 ```js
-componentDidMount(){
-  this.fetchData()
+componentDidMount() {
+  this.fetchData();
 }
 ```
 
