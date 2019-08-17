@@ -4,10 +4,7 @@ Deleting will work similarly with regard to passing state. Let's update the `Tod
 
 ```js
 class Todo extends Component {
-  constructor() {
-    super();
-  };
-  
+
   deleteClickedTodo = () => {
     this.props.deleteTodo(this.props.todo);
   };
