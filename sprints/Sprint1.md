@@ -20,7 +20,7 @@ ReactDOM.render(
   <BrowserRouter>
     <App/>
   </BrowserRouter>
-, document.getElementById('root'))
+, document.getElementById('root'));
 ```
 
 Now, in `src/App.js`, let's add 2 routes for '/' and '/todos': 
