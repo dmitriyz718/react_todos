@@ -16,33 +16,31 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 
-ReactDOM.render((
+ReactDOM.render(
   <BrowserRouter>
     <App/>
   </BrowserRouter>
-), document.getElementById('root'))
+, document.getElementById('root'))
 ```
 
 Now, in `src/App.js`, let's add 2 routes for '/' and '/todos': 
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
 import TodosContainer from './containers/TodosContainer';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="container">
-        <Switch>
-          <Route exact path='/' component={ Home }/>
-          <Route path='/todos' component={ TodosContainer }/>
-        </Switch>
-      </div>
-    );
-  }
-}
+function App() {
+  return (
+    <div className="container">
+      <Switch>
+        <Route exact path='/' component={ Home }/>
+        <Route path='/todos' component={ TodosContainer }/>
+      </Switch>
+    </div>
+  );
+};
 
 export default App;
 ```
@@ -65,17 +63,15 @@ Inside the  `components/Home.js` React component add the following code:
   
 ```js
 // components/Home.js
-import React, { Component } from 'react';
+import React from 'react';
 
-class Home extends Component {
-  render() {
-    return (
-      <h2>
-        I am the Home page
-      </h2>
-    );
-  }
-}
+const Home = () => {
+  return (
+    <h2>
+      I am the Home page
+    </h2>
+  );
+};
 
 export default Home;
 ```
@@ -93,8 +89,8 @@ class TodosContainer extends Component {
         I am the TodosContainer page
       </h2>
     );
-  }
-}
+  };
+};
 
 export default TodosContainer;
 ```
@@ -112,25 +108,23 @@ Before we add another route, let's create a `Header` component to show up across
 In `src/App.js`:
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './components/Header';
 import { Switch, Route } from 'react-router-dom';
 import Home from './components/Home';
 import TodosContainer from './containers/TodosContainer';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="container">
-        <Header/>
-        <Switch>
-          <Route exact path='/' component={ Home }/>
-          <Route path='/todos' component={ TodosContainer }/>
-        </Switch>
-      </div>
-    );
-  }
-}
+function App() {
+  return (
+    <div className="container">
+      <Header/>
+      <Switch>
+        <Route exact path='/' component={ Home }/>
+        <Route path='/todos' component={ TodosContainer }/>
+      </Switch>
+    </div>
+  );
+};
 
 export default App;
 ```
@@ -146,24 +140,22 @@ $ touch src/components/Header.js
 In `src/components/Header.js`:
 
 ```js
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-class Header extends Component{
-  render(){
-    return (
-      <header>
-        <h1>ToDo</h1>
-        <nav> 
-          <Link to={'/'}>Home</Link>
-          <Link to={'/todos'}>Todos</Link>
-        </nav>
-      </header>
-    )
-  }
-}
+const Header = () => {
+  return (
+    <header>
+      <h1>ToDo</h1>
+      <nav> 
+        <Link to={'/'}>Home</Link>
+        <Link to={'/todos'}>Todos</Link>
+      </nav>
+    </header>
+  );
+};
 
-export default Header
+export default Header;
 ```
 
 In this file, we've grabbed some dependencies and stored them in variables and then defined a component. The `Link` component is exactly what you think it is, a link to another route. You can think of it as an `href` in plain 'ol HTML.
@@ -196,20 +188,18 @@ export default (
 Then, edit your `App.js` file to no longer have hard-coded routes, and to reference the routes in your `config/routes.js` file instead:
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 import Header from './components/Header';
-import MyRoutes from './config/routes';
+import routes from './config/routes';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="container">
-        <Header/>
-        { MyRoutes }
-      </div>
-    );
-  }
-}
+function App() {
+  return (
+    <div className="container">
+      <Header/>
+      { routes }
+    </div>
+  );
+};
 
 export default App;
 ```
