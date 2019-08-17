@@ -10,9 +10,9 @@ In `containers/TodosContainer.js`:
   constructor() {
       super();
       this.state = {
-          todos: []
-      }
-  }
+          todos: [],
+      };
+  };
 
   /* createTodo = ...  */
 
@@ -31,7 +31,7 @@ In `containers/TodosContainer.js`:
         });
   }
 
-  render(){
+  render() {
     return (
       <div className="todosComponent">
         <CreateTodoForm
@@ -43,15 +43,15 @@ In `containers/TodosContainer.js`:
           deleteTodo={ this.deleteTodo }
           />
       </div>
-    )
-  }
+    );
+  };
 ```
 
 In the `components/Todos.js`, add `updateTodo` to `<Todo>` props:
 
 ```js
 //....
- let todos = this.props.todos.map( (todo) => {
+ let todos = this.props.todos.map((todo) => {
       return (
         <Todo
           key={todo._id}
@@ -59,8 +59,8 @@ In the `components/Todos.js`, add `updateTodo` to `<Todo>` props:
           deleteTodo={this.props.deleteTodo}
           updateTodo={this.props.updateTodo} 
           />
-      )
-    })
+      );
+    });
 //...
 ```
 
@@ -72,16 +72,16 @@ In `components/Todo.js` We need to add some state and add the method  `toggleBod
     super(props);
     this.state = {
       formStyle: {
-        display: 'none'
-      }
-    }
-  }
+        display: 'none',
+      };
+    };
+  };
 
   toggleBodyForm = () => {
     this.state.formStyle.display === 'block'
     ? this.setState({ formStyle: {display: 'none'} })
     : this.setState({ formStyle: {display:'block'} });
-  }
+  };
 ```
 
 This will hide the `todo` body and reveal the `todoForm` components.
@@ -89,8 +89,8 @@ This will hide the `todo` body and reveal the `todoForm` components.
 Lets update our `Todo` render to have the `TodoForm` included. We'll also add an Edit link. When the user clicks on the edit link, the form will appear prepopulated with the text of the todo for easy altering. Neat!
 
 ```js
-  render(){
-    return(
+  render() {
+    return (
       <li data-todos-index={this.props.todo._id}>
         <div>
           <span className="todo-item">
@@ -114,29 +114,29 @@ Lets update our `Todo` render to have the `TodoForm` included. We'll also add an
           updateTodo={this.props.updateTodo}
           toggleBodyForm={this.toggleBodyForm} />
       </li> 
-    )
-  }
+    );
+  };
 ```
 
 You will then have to both write the `TodoForm` component and then import it into `components/Todo.js`:
 
 ```js
 //TodoForm.js
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class TodoForm extends Component {
   constructor() {
     super();
     this.state = {
-      todo: ''
-    }
-  }
+      todo: '',
+    };
+  };
 
   onChange = (event) => {
     this.setState({
       todo: event.target.value
-    })
-  }
+    });
+  };
 
   onSubmit = (event) => {
     event.preventDefault();
@@ -145,9 +145,9 @@ class TodoForm extends Component {
     this.props.updateTodo(todo);
     this.setState({ todo: '' });
     this.props.toggleBodyForm();
-  }
+  };
 
-  render(){
+  render() {
     return (
       <div style={this.props.style} className='todoForm'>
         <form onSubmit={ this.onSubmit }>
@@ -160,9 +160,9 @@ class TodoForm extends Component {
           <button type='submit'>Save</button>
         </form>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export default TodoForm
 
@@ -179,10 +179,10 @@ import TodoForm from './TodoForm';
 In `models/Todo.js` add our method:
 
 ```js
-  static update(todo) {
-    let request = axios.put(`${endPoint}/${todo._id}`, todo)
-    return request
-  }
+  static update = (todo) => {
+    let request = axios.put(`${endPoint}/${todo._id}`, todo);
+    return request;
+  };
 ```
 
 Think back to what we did for the other CRUD actions--we define some axios behavior in `/models/Todo.js`. Then we define a method in `TodosContainer` that will handle update behavior.
