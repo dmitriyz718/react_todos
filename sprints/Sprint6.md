@@ -21,7 +21,7 @@ In `containers/TodosContainer.js`:
   updateTodo = todo => {
     const isUpdatedTodo = t => {
         return t._id === todo._id;
-    }
+    };
 
     TodoModel.update(todo)
         .then((res) => {
@@ -29,7 +29,7 @@ In `containers/TodosContainer.js`:
           todos.find(isUpdatedTodo).body = todo.body;
           this.setState({ todos: todos });
         });
-  }
+  };
 
   render() {
     return (
