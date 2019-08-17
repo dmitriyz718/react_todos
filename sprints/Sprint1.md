@@ -182,7 +182,7 @@ export default (
     <Route exact path='/' component={ Home }/>
     <Route path='/todos' component={ TodosContainer }/>
   </Switch>
-)
+);
 ```
 
 Then, edit your `App.js` file to no longer have hard-coded routes, and to reference the routes in your `config/routes.js` file instead:
