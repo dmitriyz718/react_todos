@@ -73,7 +73,7 @@ In `components/Todo.js` We need to add some state and add the method  `toggleBod
     this.state = {
       formStyle: {
         display: 'none',
-      };
+      },
     };
   };
 
@@ -134,7 +134,7 @@ class TodoForm extends Component {
 
   onChange = (event) => {
     this.setState({
-      todo: event.target.value
+      todo: event.target.value,
     });
   };
 
@@ -164,13 +164,13 @@ class TodoForm extends Component {
   };
 };
 
-export default TodoForm
+export default TodoForm;
 
 ```
 
 ```js
 //Todo.js
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TodoForm from './TodoForm';
 
 //...
