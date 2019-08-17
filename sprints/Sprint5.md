@@ -6,12 +6,14 @@ Deleting will work similarly with regard to passing state. Let's update the `Tod
 class Todo extends Component {
   constructor() {
     super();
-  }
+  };
+  
   deleteClickedTodo = () => {
     this.props.deleteTodo(this.props.todo);
-  }
-  render(){
-    return(
+  };
+  
+  render() {
+    return (
       <li data-todos-index={this.props.todo._id}>
         <span className="todo-item">{this.props.todo.body}</span>
         <span
@@ -20,22 +22,22 @@ class Todo extends Component {
           Remove
         </span>
       </li> 
-    )
-  }
-}
+    );
+  };
+};
 ```
 
 We've added a span tag with `remove` text inside. When it gets clicked it invokes the `deleteTodo` function defined on `props`. That means we need to pass `.deleteTodo` as `props` from the parent component of `Todos`. In `src/components/Todos.js`
 
 ```js
-let todos = this.props.todos.map( (todo) => {
+let todos = this.props.todos.map((todo) => {
   return (
     <Todo
       key={todo._id}
       todo={todo}
       deleteTodo={this.props.deleteTodo}/>
-  )
-})
+  );
+});
 ```
 
 Looks like it's not defined here either but passed yet again from a parent container. Finally in the `src/containers/TodosContainer.js`:
@@ -44,21 +46,21 @@ Looks like it's not defined here either but passed yet again from a parent conta
 constructor() {
   super();
   this.state = {
-    todos: []
-  }
-}
+    todos: [],
+  };
+};
 
 // After the todo delete response is sent back from the server, we find the corresponding entry for the todo in our todos state array and remove it.
 deleteTodo = (todo) => {
     TodoModel.delete(todo).then((res) => {
         let todos = this.state.todos.filter(todo => {
-          return todo._id !== res.data._id
+          return todo._id !== res.data._id;
         });
-        this.setState({todos})
-    })
-}
+        this.setState({todos});
+    });
+};
 
-render(){
+render() {
   return (
     <div className="todosComponent">
       <CreateTodoForm
@@ -69,17 +71,17 @@ render(){
         deleteTodo={this.deleteTodo}
         />
     </div>
-  )
-}
+  );
+};
 ```
 
 Before we talk about the above code, lets look at what delete looks like in our `TodoModel`. In `src/models/Todo.js`:
 
 ```js
-  static delete(todo){
-    let request = axios.delete(`${endPoint}/${todo._id}`)
-    return request
-  }
+  static delete = (todo) => {
+    let request = axios.delete(`${endPoint}/${todo._id}`);
+    return request;
+  };
 ```
 
 The `deleteTodo` takes the todo, passed from the child Component of `Todo` up through a chain of references. It deletes it with axios. Upon deletion, all todos are grabbed from the container state and filters out the one deleted, updates the state to have only the remaining todos.
