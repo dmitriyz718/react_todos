@@ -6,35 +6,38 @@ Lets write this feature to shed some more light on it.
 Let's create a file `src/components/CreateTodoForm.js` and fill it out with the following:
 
 ```js
-import React, {Component} from 'react'
+import React, { Component } from 'react';
 
 class CreateTodoForm extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
     //sets the initial state via the constructor! that's the constructor's job :)
     this.state = {
-      todo: ''
-    }
-  }
+      todo: '',
+    };
+  };
+  
   onInputChange = (event) => {
     this.setState({
       todo: event.target.value
-    })
-  }
+    });
+  };
+  
   onFormSubmit = (event) => {
-    event.preventDefault()
-    let todo = this.state.todo
-    this.props.createTodo(todo)
+    event.preventDefault();
+    let todo = this.state.todo;
+    this.props.createTodo(todo);
     this.setState({
       todo: ""
-    })
-  }
-  render(){
+    });
+  };
+  
+  render() {
     return (
-      <div >
-        <form onSubmit={ this.onFormSubmit } id="taskForm">
+      <div>
+        <form onSubmit={this.onFormSubmit} id="taskForm">
           <input  
-            onChange={ this.onInputChange } 
+            onChange={this.onInputChange} 
             type="text" id="newItemDescription" 
             placeholder="What do you need to do?" 
             value={this.state.todo}
@@ -42,22 +45,22 @@ class CreateTodoForm extends Component {
           <button type="submit" id="addTask" className="btn">Add Todo</button>
         </form>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
-export default CreateTodoForm
+export default CreateTodoForm;
 ```
 
 Whoa.. pauuuuseee. Let's take a look. First let's look at what we're rendering:
 
 ```js
-render(){
+render() {
   return (
-    <div >
-      <form onSubmit={ this.onFormSubmit } id="taskForm">
+    <div>
+      <form onSubmit={this.onFormSubmit} id="taskForm">
         <input  
-          onChange={ this.onInputChange } 
+          onChange={this.onInputChange} 
           type="text" id="newItemDescription" 
           placeholder="What do you need to do?" 
           value={this.state.todo}
@@ -65,8 +68,8 @@ render(){
         <button type="submit" id="addTask" className="btn">Add Todo</button>
       </form>
     </div>
-  )
-}
+  );
+};
 ```
 
 We define the initial state of the form in the constructor.
@@ -83,9 +86,9 @@ Let's take a look at the `onInputChange` function first:
 ```js
 onInputChange = (event) => {
   this.setState({
-    todo: event.target.value
-  })
-}
+    todo: event.target.value,
+  });
+};
 ```
 
 Basically whenever this input changes, we're going to set the state of this component to have a property of `todo` and it's value is whatever the input field's value is.
@@ -94,13 +97,13 @@ Basically whenever this input changes, we're going to set the state of this comp
 
 ```js
 onFormSubmit = (event) => {
-  event.preventDefault()
-  let todo = this.state.todo
-  this.props.createTodo(todo)
+  event.preventDefault();
+  let todo = this.state.todo;
+  this.props.createTodo(todo);
   this.setState({
-    todo: ""
-  })
-}
+    todo: '',
+  });
+};
 ```
 
 First off, prevent the default action as form submission will cause a request to fire. Then instantiate a variable todo from the state. Lastly we also set the todo property of the state as an empty string. We skipped one line though, `this.props.createTodo(todo)` What does that tell us about where `createTodo` comes from?
@@ -111,32 +114,34 @@ In `src/containers/TodosContainer.js`:
 
 ```js
 // At the top import the component
-import CreateTodoForm from '../components/CreateTodoForm'
+import CreateTodoForm from '../components/CreateTodoForm';
 
 ...
 
 createTodo = (todo) => {
     let newTodo = {
         body: todo,
-        completed: false
-    }
+        completed: false,
+    };
+    
     TodoModel.create(newTodo).then((res) => {
-        let todos = this.state.todos
-        todos.push(res.data)
-        this.setState({ todos: todos })
-    })
-}
-render(){
+        let todos = this.state.todos;
+        todos.push(res.data);
+        this.setState({ todos: todos });
+    });
+};
+
+render() {
   return (
     <div className="todosComponent">
       <CreateTodoForm
-        createTodo={ this.createTodo } />
+        createTodo={this.createTodo} />
 
       <Todos
         todos={this.state.todos} />
     </div>
-  )
-}
+  );
+};
 ```
 
 We see that we pass the `createTodo` function of THIS container component TO the `CreateTodoForm` component. Since we are using arrow functions instead of traditional function definitions we are not bound to a `this` inside our methods.  The `this` inside the methods actually refers to the context of the component. 
@@ -144,10 +149,10 @@ We see that we pass the `createTodo` function of THIS container component TO the
 In the actual `createTodo` function. We can see that we construct everything we need about a todo in an object and store it in a variable. We then pass that object to a `.create` method on our `TodoModel` that ... hasn't been defined yet. Let's define it now. In `src/models/Todo.js`:
 
 ```js
-static create(todo) {
-  let request = axios.post(endPoint, todo)
-  return request
-}
+static create = (todo) => {
+  let request = axios.post(endPoint, todo);
+  return request;
+};
 ```
 
 Using axios, we create the `todo`. In the promise, we fetch all the `todos` and set the state to encapsulates those `todos` from the response.
@@ -159,14 +164,14 @@ Remember that in the submit event of the form, we used a function `this.props.cr
 In `src/components/CreateTodoForm`:
 
 ```js
-onFormSubmit(event){
-  event.preventDefault()
-  let todo = this.state.todo
-  this.props.createTodo(todo)
+onFormSubmit = (event) => {
+  event.preventDefault();
+  let todo = this.state.todo;
+  this.props.createTodo(todo);
   this.setState({
-    todo: ""
-  })
-}
+    todo: '',
+  });
+};
 ```
 
 We pass `createTodo` from the container as `props`. In `src/containers/TodosContainer.js`:
@@ -174,9 +179,9 @@ We pass `createTodo` from the container as `props`. In `src/containers/TodosCont
 ```js
 constructor() {
   super(); 
-}
+};
 
-render(){
+render() {
   return (
     <div className="todosComponent">
       <CreateTodoForm
@@ -185,8 +190,8 @@ render(){
       <Todos
         todos={this.state.todos} />
     </div>
-  )
-}
+  );
+};
 ```
 
 The argument passed in at the `CreateTodoForm` level(child) was state from that component. And now it updates state at the `TodosContainer` level(parent).
