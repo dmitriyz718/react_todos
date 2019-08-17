@@ -43,21 +43,21 @@ For now, let's toss this in the `TodosContainer`'s `render()` method: this isn't
 In `containers/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TodoModel from '../models/Todo';
 
 class TodosContainer extends Component {
-  render(){
-    TodoModel.all().then( (res) => {
+  render() {
+    TodoModel.all().then((res) => {
       console.log(res);
     });
     return (
       <div className='todosContainer'>
         <h2>This is a todos container</h2>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export default TodosContainer;
 ```
@@ -72,17 +72,17 @@ Now that we can get our data, let's code how we present that data. It'll be a bi
 Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component to follow FIRST(Focused Independent Reusable Small Testable) principles. Let's create `src/components/Todo.js` and put the following in it:
 
 ```js
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class Todo extends Component {
-  render(){
-    return(
+  render() {
+    return (
       <li data-todos-index={this.props.todo._id}>
         <span className="todo-item">{this.props.todo.body}</span>
       </li> 
-    )
-  }
-}
+    );
+  };
+};
 
 export default Todo;
 ```
@@ -93,11 +93,11 @@ When we write this component we know that if we pass it a `todo`, as a `prop`, t
 We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.js` and fill it with the following:
 
 ```js
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Todo from './Todo';
 
 class Todos extends Component {
-  render(){
+  render() {
 
     let todos = this.props.todos.map((todo) => {
       return (
@@ -107,13 +107,13 @@ class Todos extends Component {
       )
     });
 
-    return(
+    return (
       <ul>
         {todos}
       </ul>
-    )
-  }
-}
+    );
+  };
+};
 
 export default Todos;
 ```
@@ -125,20 +125,21 @@ In this component, we have a property called todos. When we eventually use this 
 Let's shove the remaining code we need in and then let's talk about it. In `src/containers/TodosContainer.js`:
 
 ```js
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import TodoModel from '../models/Todo';
 import Todos from '../components/Todos';
 
 class TodosContainer extends Component {
-  constructor(){
-    super()
+  constructor() {
+    super();
     this.state = {
       todos: [],
-    }
-  }
+    };
+  };
+  
   componentDidMount() {
-    this.fetchData()
-  }
+    this.fetchData();
+  };
   
   fetchData = () => {
     TodoModel.all().then((res) => {
@@ -148,15 +149,15 @@ class TodosContainer extends Component {
     });
   };
   
-  render(){
+  render() {
     return (
       <div className="todosComponent">
         <Todos
           todos={this.state.todos} />
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
 export default TodosContainer;
 ```
@@ -165,7 +166,7 @@ If we take a look at our browser now... BAM todos! What just happened....
 
 ```js
 constructor() {
-  super()
+  super();
   this.state = {
     todos: [],
   };
@@ -176,7 +177,7 @@ This is just like `__init__` in python(only a bit different). `constructor()` is
 
 ```js
 fetchData = () => {
-  TodoModel.all().then( (res) => {
+  TodoModel.all().then((res) => {
     this.setState ({
       todos: res.data.todos,
     });
@@ -189,7 +190,7 @@ This function leverages our model to retrieve our `todos` from our backend. In t
 ```js
 componentDidMount() {
   this.fetchData();
-}
+};
 ```
 
 ### Hooks
@@ -222,8 +223,8 @@ In `src/components/Todos.js`:
       key={todo._id}
       todo={todo}
     />
-  )
-})
+  );
+});
 ```
 
 In `src/components/Todo.js`:
