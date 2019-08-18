@@ -3,19 +3,19 @@
 Deleting will work similarly with regard to passing state. Let's update the `Todo` component to contain a UI with which to delete a todo. In `src/components/Todo.js`:
 
 ```js
-class Todo extends Component {
+const Todo = (props) => {
 
-  deleteClickedTodo = () => {
-    this.props.deleteTodo(this.props.todo);
+  const deleteClickedTodo = () => {
+    props.deleteTodo(props.todo);
   };
   
   render() {
     return (
-      <li data-todos-index={this.props.todo._id}>
-        <span className="todo-item">{this.props.todo.body}</span>
+      <li data-todos-index={props.todo._id}>
+        <span className="todo-item">{props.todo.body}</span>
         <span
           className='remove'
-          onClick={this.deleteClickedTodo}>
+          onClick={deleteClickedTodo}>
           Remove
         </span>
       </li> 
@@ -27,12 +27,12 @@ class Todo extends Component {
 We've added a span tag with `remove` text inside. When it gets clicked it invokes the `deleteTodo` function defined on `props`. That means we need to pass `.deleteTodo` as `props` from the parent component of `Todos`. In `src/components/Todos.js`
 
 ```js
-let todos = this.props.todos.map((todo) => {
+let todos = props.todos.map((todo) => {
   return (
     <Todo
       key={todo._id}
       todo={todo}
-      deleteTodo={this.props.deleteTodo}/>
+      deleteTodo={props.deleteTodo}/>
   );
 });
 ```
@@ -50,7 +50,7 @@ constructor() {
 // After the todo delete response is sent back from the server, we find the corresponding entry for the todo in our todos state array and remove it.
 deleteTodo = (todo) => {
     TodoModel.delete(todo).then((res) => {
-        let todos = this.state.todos.filter(todo => {
+        let todos = this.state.todos.filter((todo) => {
           return todo._id !== res.data._id;
         });
         this.setState({todos});
