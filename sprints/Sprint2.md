@@ -5,19 +5,19 @@ Writing a container is going to feel very similar to writing just another compon
 Let's revise our `src/containers/TodosContainer.js` and replace the dummy text we had before with the following:
 
 ```js
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 class TodosContainer extends Component {
-  render(){
+  render() {
     return (
       <div className='todosContainer'>
         <h2>This is the todos container</h2>
       </div>
-    )
-  }
-}
+    );
+  };
+};
 
-export default TodosContainer
+export default TodosContainer;
 ```
 
 ### PAUSE!
