@@ -183,7 +183,7 @@ constructor() {
 
 render() {
   return (
-    <div className="todosComponent">
+    <div className="todosContainer">
       <CreateTodoForm
         createTodo={ this.createTodo } />
 
