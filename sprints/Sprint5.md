@@ -3,19 +3,19 @@
 Deleting will work similarly with regard to passing state. Let's update the `Todo` component to contain a UI with which to delete a todo. In `src/components/Todo.js`:
 
 ```js
-const Todo = (props) => {
+class Todo extends Component {
 
-  const deleteClickedTodo = () => {
-    props.deleteTodo(props.todo);
+  deleteClickedTodo = () => {
+    this.props.deleteTodo(this.props.todo);
   };
   
   render() {
     return (
-      <li data-todos-index={props.todo._id}>
-        <span className="todo-item">{props.todo.body}</span>
+      <li data-todos-index={this.props.todo._id}>
+        <span className="todo-item">{this.props.todo.body}</span>
         <span
           className='remove'
-          onClick={deleteClickedTodo}>
+          onClick={this.deleteClickedTodo}>
           Remove
         </span>
       </li> 
