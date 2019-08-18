@@ -72,14 +72,16 @@ Now that we can get our data, let's code how we present that data. It'll be a bi
 Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component to follow FIRST(Focused Independent Reusable Small Testable) principles. Let's create `src/components/Todo.js` and put the following in it:
 
 ```js
-import React from 'react';
+import React, { Component } from 'react';
 
-const Todo = (props) => {
-  return (
-    <li data-todos-index={props.todo._id}>
-      <span className="todo-item">{props.todo.body}</span>
-    </li> 
-  );
+class Todo extends Component {
+  render() {
+    return (
+      <li data-todos-index={this.props.todo._id}>
+        <span className="todo-item">{this.props.todo.body}</span>
+      </li> 
+    );
+  };
 };
 
 export default Todo;
@@ -225,8 +227,8 @@ let todos = props.todos.map((todo) => {
 In `src/components/Todo.js`:
 
 ```js
-  <li data-todos-index={props.todo._id}>
-    <span className="todo-item">{props.todo.body}</span>
+  <li data-todos-index={this.props.todo._id}>
+    <span className="todo-item">{this.props.todo.body}</span>
   </li> 
 ```
 
