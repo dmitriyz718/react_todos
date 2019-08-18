@@ -74,10 +74,10 @@ Let's start at the bottom and bubble up. It would be nice if each `todo` element
 ```js
 import React from 'react';
 
-const Todo = () => {
+const Todo = (props) => {
   return (
-    <li data-todos-index={this.props.todo._id}>
-      <span className="todo-item">{this.props.todo.body}</span>
+    <li data-todos-index={props.todo._id}>
+      <span className="todo-item">{props.todo.body}</span>
     </li> 
   );
 };
@@ -94,8 +94,8 @@ We need another component. Its responsibility will be to render all of the todos
 import React from 'react';
 import Todo from './Todo';
 
-const Todos = () => {
-  let todos = this.props.todos.map((todo) => {
+const Todos = (props) => {
+  let todos = props.todos.map((todo) => {
     return (
       <Todo
         key={todo._id}
@@ -212,7 +212,7 @@ In `src/containers/TodosContainer.js`:
 In `src/components/Todos.js`:  
 
 ```js
-let todos = this.props.todos.map((todo) => {
+let todos = props.todos.map((todo) => {
   return (
     <Todo
       key={todo._id}
@@ -225,8 +225,8 @@ let todos = this.props.todos.map((todo) => {
 In `src/components/Todo.js`:
 
 ```js
-  <li data-todos-index={this.props.todo._id}>
-    <span className="todo-item">{this.props.todo.body}</span>
+  <li data-todos-index={props.todo._id}>
+    <span className="todo-item">{props.todo.body}</span>
   </li> 
 ```
 
