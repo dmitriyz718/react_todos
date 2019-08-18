@@ -51,13 +51,13 @@ In the `components/Todos.js`, add `updateTodo` to `<Todo>` props:
 
 ```js
 //....
- let todos = this.props.todos.map((todo) => {
+ let todos = props.todos.map((todo) => {
       return (
         <Todo
           key={todo._id}
           todo={todo}
-          deleteTodo={this.props.deleteTodo}
-          updateTodo={this.props.updateTodo} 
+          deleteTodo={props.deleteTodo}
+          updateTodo={props.updateTodo} 
           />
       );
     });
