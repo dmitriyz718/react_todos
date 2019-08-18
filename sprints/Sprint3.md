@@ -72,16 +72,14 @@ Now that we can get our data, let's code how we present that data. It'll be a bi
 Let's start at the bottom and bubble up. It would be nice if each `todo` element had its own component to follow FIRST(Focused Independent Reusable Small Testable) principles. Let's create `src/components/Todo.js` and put the following in it:
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 
-class Todo extends Component {
-  render() {
-    return (
-      <li data-todos-index={this.props.todo._id}>
-        <span className="todo-item">{this.props.todo.body}</span>
-      </li> 
-    );
-  };
+const Todo = () => {
+  return (
+    <li data-todos-index={this.props.todo._id}>
+      <span className="todo-item">{this.props.todo.body}</span>
+    </li> 
+  );
 };
 
 export default Todo;
@@ -93,26 +91,23 @@ When we write this component we know that if we pass it a `todo`, as a `prop`, t
 We need another component. Its responsibility will be to render all of the todos. Let's create another component `src/components/Todos.js` and fill it with the following:
 
 ```js
-import React, { Component } from 'react';
+import React from 'react';
 import Todo from './Todo';
 
-class Todos extends Component {
-  render() {
-
-    let todos = this.props.todos.map((todo) => {
-      return (
-        <Todo
-          key={todo._id}
-          todo={todo}/>
-      )
-    });
-
+const Todos = () => {
+  let todos = this.props.todos.map((todo) => {
     return (
-      <ul>
-        {todos}
-      </ul>
+      <Todo
+        key={todo._id}
+        todo={todo} />
     );
-  };
+  });
+
+  return (
+    <ul>
+      {todos}
+    </ul>
+  );
 };
 
 export default Todos;
@@ -217,7 +212,7 @@ In `src/containers/TodosContainer.js`:
 In `src/components/Todos.js`:  
 
 ```js
-  let todos = this.props.todos.map( (todo) => {
+let todos = this.props.todos.map((todo) => {
   return (
     <Todo
       key={todo._id}
