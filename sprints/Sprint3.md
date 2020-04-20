@@ -8,12 +8,12 @@ $ mkdir src/models
 $ touch src/models/Todo.js
 ```
 
-Now in `src/models/Todo.js`, we are going to use our beloved super-crud API endpoint of todos to get some data (you can check out the raw json at https://super-crud-api.herokuapp.com/api/todos):
+Now in `src/models/Todo.js`, we are going to use our beloved super-crud API endpoint of todos to get some data (you can check out the raw json at https://super-crud.herokuapp.com/todos):
 
 ```js
 import axios from 'axios';
 
-const endPoint = `https://super-crud-api.herokuapp.com/api/todos`;
+const endPoint = `https://super-crud.herokuapp.com/todos`;
 
 class TodoModel {
   static all = () => {
