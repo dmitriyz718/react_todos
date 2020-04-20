@@ -1,5 +1,7 @@
 ## Sprint 4: Creating Todos
-We're going to want to create a component that handles the form for creating todos. Before we build this feature out, How can we pass state from a child component to a parent? The opposite is easy, because we're able to just pass properties to our child components. Child state to parent state is much more difficult because we can't pass properties like that. Its unidirectional. The answer? Callbacks.
+We're going to create a component that handles the form that will allow a user to create todos. Before we build this feature, you should know that this sprint is going to explore some concepts in React that are new to us; namely, using state to hold onto form data until the user is ready to submit that data. 
+
+When the user does finally submit the form, where does that data go? Read on to find out more and you may want to run through this sprint two or three more times to make sure this makes sense.
 
 Lets write this feature to shed some more light on it.
 
@@ -9,12 +11,8 @@ Let's create a file `src/components/CreateTodoForm.js` and fill it out with the 
 import React, { Component } from 'react';
 
 class CreateTodoForm extends Component {
-  constructor() {
-    super();
-    //sets the initial state via the constructor! that's the constructor's job :)
-    this.state = {
-      todo: '',
-    };
+  this.state = {
+    todo: '',
   };
   
   onInputChange = (event) => {
