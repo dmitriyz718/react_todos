@@ -3,7 +3,7 @@
 Now let's create the react app. We're going to be using the library `react-router-dom` for this, so we will need to install that as well.
 
 ```bash
-$ create-react-app my-react-todo
+$ npx create-react-app my-react-todo
 $ cd my-react-todo
 $ npm i react-router-dom
 $ npm start
