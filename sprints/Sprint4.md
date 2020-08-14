@@ -175,9 +175,6 @@ onFormSubmit = (event) => {
 We pass `createTodo` from the container as `props`. In `src/containers/TodosContainer.js`:
 
 ```js
-constructor() {
-  super(); 
-};
 
 render() {
   return (
