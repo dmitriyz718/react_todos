@@ -11,6 +11,10 @@ class TodoModel {
         let request = axios.get(endPoint);
         return request;
     };
+    static delete = (todo) => {
+        let request = axios.delete(`${endPoint}/${todo._id}`);
+        return request;
+    };
 };
 
 export default TodoModel;

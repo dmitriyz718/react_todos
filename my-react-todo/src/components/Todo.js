@@ -1,20 +1,24 @@
 import React from 'react';
 import Todo from './Todo';
 
-const Todos = (props) => {
-    let todos = props.todos.map((todo) => {
-        return (
-            <Todo
-                key={todo._id}
-                todo={todo} />
-        );
-    });
+class Todo extends Component {
 
-    return (
-        <ul>
-            {todos}
-        </ul>
-    );
+    deleteClickedTodo = () => {
+        this.props.deleteTodo(this.props.todo);
+    };
+
+    render() {
+        return (
+            <li data-todos-index={this.props.todo._id}>
+                <span className="todo-item">{this.props.todo.body}</span>
+                <span
+                    className='remove'
+                    onClick={this.deleteClickedTodo}>
+                    Remove
+        </span>
+            </li>
+        );
+    };
 };
 
 export default Todos;
